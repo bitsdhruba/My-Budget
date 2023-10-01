@@ -1,65 +1,49 @@
-const addBtn = document.querySelector("#btn");
-const getItem = document.querySelector("#getItem");
-const getAmount = document.querySelector("#getAmount");
-const payAmount = document.querySelector("#payAmount");
-const payBtn = document.querySelector("#payBtn");
-const use = document.querySelector("#use");
-const type = document.querySelector("#pay");
-const table = document.querySelector("#tableList");
+const payAmount = document.querySelector('#payCheck');
+const getItem = document.querySelector('#getItem');
+const getAmount = document.querySelector('#getAmount');
+const addBtn = document.querySelector('#addBtn');
+const table = document.querySelector('#table');
+const remainingHead = document.querySelector('#remaining');
+const totalHead = document.querySelector('#total');
 
+let total = 0;
+const allExpense = [];
 
-payBtn.addEventListener("click", function(){
+const expense = function (){
+    let expenses = {};
+    
     payValue = payAmount.value;
-    pay = parseInt(payValue);
-});
+    payCheck = parseInt(payValue);
+    let item = getItem.value;
+    let amountValue = getAmount.value;
+    let amount = parseInt(amountValue);
 
-let budget = 0;
-const AllBudget = [];
+    total = total + amount;
+    
+    remaining = payCheck - total;
 
-addBtn.addEventListener("click", function (){
-    const totalBudget = {}
+    expenses.item = item;
+    expenses.amount = amount;
+    expenses.total = total;
+    expenses.remaining = remaining;
 
-    item = getItem.value;
-    amountValue = getAmount.value;
-    amount = parseInt(amountValue);
-    budget = budget + amount;
-    remains = (pay - budget);
+    allExpense.push(expenses);
 
-    totalBudget.item = item;
-    totalBudget.amount = amount;
-    totalBudget.remains = remains;
-
-    AllBudget.push(totalBudget);
-
-    const allbudgethtml = AllBudget.map(totalBudget=>{
+    const listTable = function ({item, amount}){
         return `
-            <div class="card" style="width: 18rem;">
-                <div class="card-header">
-                    Item 
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">${totalBudget.item}</li>
-                    <li class="list-group-item">${totalBudget.amount}</li>
-                </ul>
-                <div class="card-header">
-                    Yet to use
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">${totalBudget.remains}</li>
-                    <i id="delItem" class="material-symbols-outlined">delete</i>
-                </ul>
-                 
-            </div>  
-        `
-    });
+        <ul>
+            <li>Item : ${item}</li>
+            <li>Spent ₹ : ${amount}</li>
+        </ul>`
+    }
 
-    const joinedallbudgethtml = allbudgethtml.join("");
-    table.innerHTML = joinedallbudgethtml;
+    const AllExpenses = allExpense.map(expenses => listTable(expenses));
+    const joinedAllExpenses = AllExpenses.join("");
 
-    const delitem = document.querySelectorAll("#delItem");
-    delitem.addEventListener("click", trash=()=>{
-        console.log("item deleted")
-    });
+    table.innerHTML = joinedAllExpenses;
+    remainingHead.innerHTML = `Yet to Use : ${remaining}`;
+    totalHead.innerHTML = `Total : ${total}`;
+}
 
-});
 
+addBtn.addEventListener('click', expense, false);
