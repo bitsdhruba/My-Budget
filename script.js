@@ -32,8 +32,8 @@ const expense = function (){
     const listTable = function ({item, amount}){
         return `
         <ul>
-            <li>Item : ${item}</li>
-            <li>Spent ₹ : ${amount}</li>
+            <li>Item @: ${item} </li>
+            <li>Spent : ${amount} ₹</li>
         </ul>`
     }
 
@@ -41,8 +41,8 @@ const expense = function (){
     const joinedAllExpenses = AllExpenses.join("");
 
     table.innerHTML = joinedAllExpenses;
-    remainingHead.innerHTML = `Yet to Use : ${remaining}`;
-    totalHead.innerHTML = `Total : ${total}`;
+    remainingHead.innerHTML = `Yet to Use : ${remaining} ₹`;
+    totalHead.innerHTML = `Total : ${total} ₹`;
 }
 
 
